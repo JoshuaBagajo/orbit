@@ -10,7 +10,7 @@ from omni.isaac.orbit_tasks.locomotion.velocity.velocity_env_cfg import Locomoti
 ##
 # Pre-defined configs
 ##
-from omni.isaac.orbit_assets.anymal import ANYMAL_C_CFG  # isort: skip
+from omni.isaac.orbit_assets.anymal import ANYMAL_D_CFG  # isort: skip
 
 
 @configclass
@@ -19,7 +19,7 @@ class AnymalCRoughEnvCfg(LocomotionVelocityRoughEnvCfg):
         # post init of parent
         super().__post_init__()
         # switch robot to anymal-c
-        self.scene.robot = ANYMAL_C_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        self.scene.robot = ANYMAL_D_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
 
 
 @configclass

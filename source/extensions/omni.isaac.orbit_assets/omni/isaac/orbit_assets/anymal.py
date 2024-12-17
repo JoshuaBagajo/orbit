@@ -20,7 +20,7 @@ Reference:
 """
 
 import omni.isaac.orbit.sim as sim_utils
-from omni.isaac.orbit.actuators import ActuatorNetLSTMCfg, DCMotorCfg
+from omni.isaac.orbit.actuators import ActuatorNetLSTMCfg, DCMotorCfg, ImplicitActuatorCfg
 from omni.isaac.orbit.assets.articulation import ArticulationCfg
 from omni.isaac.orbit.utils.assets import ISAAC_ORBIT_NUCLEUS_DIR
 
@@ -32,11 +32,87 @@ ANYDRIVE_3_SIMPLE_ACTUATOR_CFG = DCMotorCfg(
     joint_names_expr=[".*HAA", ".*HFE", ".*KFE"],
     saturation_effort=120.0,
     effort_limit=80.0,
-    velocity_limit=7.5,
-    stiffness={".*": 40.0},
-    damping={".*": 5.0},
+    velocity_limit=7.5,  # considered in saturation model
+    stiffness={".*": 85.0},  # default: 40.0
+    damping={".*": 3.5},  # default: 5.0
 )
 """Configuration for ANYdrive 3.x with DC actuator model."""
+
+ANYDRIVE_3_SYSID_ACTUATOR_CFG = DCMotorCfg(
+    joint_names_expr=[".*HAA", ".*HFE", ".*KFE"],
+    saturation_effort=120.0,
+    effort_limit=80.0,
+    velocity_limit=7.5,  # considered in saturation model
+    stiffness={".*": 85.0},
+    damping={
+        ".*LF_HAA": 2.4304,
+        ".*LH_HAA": 3.3335,
+        ".*RF_HAA": 3.1598,
+        ".*RH_HAA": 3.0478,
+        ".*LF_HFE": 3.6843,
+        ".*LH_HFE": 4.8727,
+        ".*RF_HFE": 3.5460,
+        ".*RH_HFE": 5.0738,
+        ".*LF_KFE": 4.1307,
+        ".*LH_KFE": 3.9806,
+        ".*RF_KFE": 3.7354,
+        ".*RH_KFE": 4.4794,
+    },
+    # friction={
+    #     ".*LF_HAA": 0.0441,
+    #     ".*LH_HAA": 0.0248,
+    #     ".*RF_HAA": 0.0273,
+    #     ".*RH_HAA": 0.0339,
+    #     ".*LF_HFE": 0.0393,
+    #     ".*LH_HFE": 0.0174,
+    #     ".*RF_HFE": 0.0455,
+    #     ".*RH_HFE": 0.0087,
+    #     ".*LF_KFE": 0.1566,
+    #     ".*LH_KFE": 0.2266,
+    #     ".*RF_KFE": 0.2357,
+    #     ".*RH_KFE": 0.1863,
+    # },  # used but not sure where
+    armature={".*": 0.09},  # used but not sure where
+)
+"""Configuration for ANYdrive 3.x with DC actuator model and specific parameters."""
+
+ANYDRIVE_3_IMPLICIT_ACTUATOR_CFG = ImplicitActuatorCfg(
+    joint_names_expr=[".*HAA", ".*HFE", ".*KFE"],
+    # saturation_effort=120.0,
+    effort_limit=80.0,
+    velocity_limit=7.5,  # not respected
+    stiffness={".*": 85.0},
+    damping={
+        ".*LF_HAA": 2.4304,
+        ".*LH_HAA": 3.3335,
+        ".*RF_HAA": 3.1598,
+        ".*RH_HAA": 3.0478,
+        ".*LF_HFE": 3.6843,
+        ".*LH_HFE": 4.8727,
+        ".*RF_HFE": 3.5460,
+        ".*RH_HFE": 5.0738,
+        ".*LF_KFE": 4.1307,
+        ".*LH_KFE": 3.9806,
+        ".*RF_KFE": 3.7354,
+        ".*RH_KFE": 4.4794,
+    },
+    friction={
+        ".*LF_HAA": 0.0441,
+        ".*LH_HAA": 0.0248,
+        ".*RF_HAA": 0.0273,
+        ".*RH_HAA": 0.0339,
+        ".*LF_HFE": 0.0393,
+        ".*LH_HFE": 0.0174,
+        ".*RF_HFE": 0.0455,
+        ".*RH_HFE": 0.0087,
+        ".*LF_KFE": 0.1566,
+        ".*LH_KFE": 0.2266,
+        ".*RF_KFE": 0.2357,
+        ".*RH_KFE": 0.1863,
+    },
+    armature={".*": 0.09},
+)
+"""Configuration for ANYdrive 3.x with implicit model and specific parameters."""
 
 
 ANYDRIVE_3_LSTM_ACTUATOR_CFG = ActuatorNetLSTMCfg(
@@ -116,9 +192,10 @@ ANYMAL_C_CFG = ArticulationCfg(
             ".*H_KFE": 0.8,  # both hind KFE
         },
     ),
-    actuators={"legs": ANYDRIVE_3_LSTM_ACTUATOR_CFG},
+    actuators={"legs": ANYDRIVE_3_SYSID_ACTUATOR_CFG},  # ANYDRIVE_3_SIMPLE_ACTUATOR_CFG
     soft_joint_pos_limit_factor=0.95,
 )
+# ISAAC_ORBIT_NUCLEUS_DIR = https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/2023.1.1/Isaac/Samples/Orbit
 """Configuration of ANYmal-C robot using actuator-net."""
 
 
@@ -151,7 +228,7 @@ ANYMAL_D_CFG = ArticulationCfg(
             ".*H_KFE": 0.8,  # both hind KFE
         },
     ),
-    actuators={"legs": ANYDRIVE_3_LSTM_ACTUATOR_CFG},
+    actuators={"legs": ANYDRIVE_3_SYSID_ACTUATOR_CFG},
     soft_joint_pos_limit_factor=0.95,
 )
 """Configuration of ANYmal-D robot using actuator-net.

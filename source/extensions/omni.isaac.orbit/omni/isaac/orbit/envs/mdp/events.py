@@ -80,10 +80,12 @@ def randomize_rigid_body_material(
     if asset_cfg.body_ids == slice(None) or isinstance(asset, RigidObject):
         # get the current materials of the bodies
         materials = asset.root_physx_view.get_material_properties()
+        # print(f"[events.py]: Initial materials of object: {materials}")
         # assign the new materials
         # material ids are of shape: num_env_ids x num_shapes
         # material_buckets are of shape: num_buckets x 3
         materials[env_ids] = material_buckets[material_ids]
+        # print(f"[events.py]: Updated materials of object: {materials}")
 
         # set the material properties into the physics simulation
         asset.root_physx_view.set_material_properties(materials, env_ids)
@@ -98,6 +100,7 @@ def randomize_rigid_body_material(
 
         # get the current materials of the bodies
         materials = asset.root_physx_view.get_material_properties()
+        # print(f"[events.py]: Materials of articulation: {materials}")
 
         # sample material properties from the given ranges
         for body_id in asset_cfg.body_ids:
@@ -168,6 +171,12 @@ def randomize_rigid_body_mass(
 
     # get the current masses of the bodies (num_assets, num_bodies)
     masses = asset.root_physx_view.get_masses()
+    # print(f"[events.py]: asset: {asset}")
+    # print(f"[events.py]: Initial masses of object: {masses}")
+    # print(f"[events.py]: Initial inertias of object: {asset.root_physx_view.get_inertias()}")
+    # print(f"[events.py]: Initial get_coms of object: {asset.root_physx_view.get_coms()}")
+    # print(f"[events.py]: Initial joint_names of object: {asset.joint_names}")
+    # print(f"[events.py]: Initial body_names of object: {asset.body_names}")
 
     # sample from the given range
     # note: we modify the masses in-place for all environments

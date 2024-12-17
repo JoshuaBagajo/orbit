@@ -18,7 +18,7 @@ class AnymalCRoughPPORunnerCfg(RslRlOnPolicyRunnerCfg):
     max_iterations = 1500
     save_interval = 50
     experiment_name = "anymal_c_rough"
-    empirical_normalization = False
+    empirical_normalization = False  # True for warp
     policy = RslRlPpoActorCriticCfg(
         init_noise_std=1.0,
         actor_hidden_dims=[512, 256, 128],
@@ -48,5 +48,5 @@ class AnymalCFlatPPORunnerCfg(AnymalCRoughPPORunnerCfg):
 
         self.max_iterations = 300
         self.experiment_name = "anymal_c_flat"
-        self.policy.actor_hidden_dims = [128, 128, 128]
-        self.policy.critic_hidden_dims = [128, 128, 128]
+        self.policy.actor_hidden_dims = [128, 64, 32]
+        self.policy.critic_hidden_dims = [64, 64]

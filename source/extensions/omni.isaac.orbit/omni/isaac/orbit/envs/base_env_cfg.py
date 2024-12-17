@@ -25,10 +25,10 @@ from .ui import BaseEnvWindow
 class ViewerCfg:
     """Configuration of the scene viewport camera."""
 
-    eye: tuple[float, float, float] = (7.5, 7.5, 7.5)
+    eye: tuple[float, float, float] = (2.5, -5.6, 1.25)
     """Initial camera position (in m). Default is (7.5, 7.5, 7.5)."""
 
-    lookat: tuple[float, float, float] = (0.0, 0.0, 0.0)
+    lookat: tuple[float, float, float] = (2.5, 2.764, 0.0)
     """Initial camera target position (in m). Default is (0.0, 0.0, 0.0)."""
 
     cam_prim_path: str = "/OmniverseKit_Persp"
@@ -36,7 +36,7 @@ class ViewerCfg:
     which is the default camera in the viewport.
     """
 
-    resolution: tuple[int, int] = (1280, 720)
+    resolution: tuple[int, int] = (1920, 1080)
     """The resolution (width, height) of the camera specified using :attr:`cam_prim_path`.
     Default is (1280, 720).
     """

@@ -171,7 +171,7 @@ class SimulationCfg:
     substeps: int = 1
     """The number of physics simulation steps per rendering step. Default is 1."""
 
-    gravity: tuple[float, float, float] = (0.0, 0.0, -9.81)
+    gravity: tuple[float, float, float] = (0.0, 0.0, -9.81)  # could be changed
     """The gravity vector (in m/s^2). Default is (0.0, 0.0, -9.81).
 
     If set to (0.0, 0.0, 0.0), gravity is disabled.
